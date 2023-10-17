@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
 })
 
 
-
 router.post('/', async (req, res) => {
     const { name } = req.body.checklist; // Extrai o nome do checklist do corpo da solicitação.
     const checklist = new Checklist({ name }); // Cria uma instância de Checklist com o nome fornecido.
@@ -38,14 +37,23 @@ router.get('/new', async (req, res) => {
     }
 })
 
+// router.get('/:id', async (req, res) => {
+//     try {
+//       let checklist = await Checklist.findById(req.params.id).populate('tasks');
+//       res.status(200).render('checklists/show', { checklist: checklist });
+//     } catch (error) {
+//       res.status(500).render('pages/error', { error: 'Erro ao exibir as Listas de tarefas' });
+//     }
+//   });
 router.get('/:id', async (req, res) => {
     try {
-      let checklist = await Checklist.findById(req.params.id);
-      res.status(200).render('checklists/show', { checklist: checklist });
+        let checklist = await Checklist.findById(req.params.id).populate('tasks');
+        res.status(200).render('checklists/show', { checklist: checklist });
     } catch (error) {
-      res.status(500).render('pages/error', { error: 'Erro ao exibir as Listas de tarefas' });
+        res.status(500).render('pages/error', { error: 'Erro ao exibir as Listas de tarefas' });
     }
-  });
+});
+
 
 router.get('/:id/edit', async (req, res) => {
     try {
